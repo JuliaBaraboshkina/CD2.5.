@@ -1,4 +1,3 @@
-
 import { StyleSheet,ImageBackground,Text,Pressable, SafeAreaView,View, TouchableOpacity, ScrollView, Dimensions,Animated } from 'react-native';
 import React, {useEffect, useRef} from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -6,15 +5,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const scrollX = new Animated.Value(0)
 const springValue = new Animated.Value(1)
 const imageRotateValue = new Animated.Value(0)
 
 const interpolateScrollViewRotation = imageRotateValue.interpolate({
-  inputRange: [0, 50],
-  outputRange: ["0deg", "360deg"]
+  inputRange: [0, 50],//скорость обвращения
+  outputRange: ["0deg", "360deg"] // поворот
 })
 
 const pict = ["https://krasivosti.pro/uploads/posts/2021-04/1618114925_15-p-rizhii-retriver-sobaki-krasivo-foto-17.jpg", "https://glorypets.ru/wp-content/uploads/2020/09/risunok-2-predstavitel-pordy-akita.jpg"]
@@ -23,7 +21,7 @@ const flipAnimation = () => {
   Animated.parallel([
       Animated.sequence([
         Animated.spring(springValue, {
-          toValue: 1,
+          toValue: 1, //приближение
           useNativeDriver: true,
         }),
         Animated.spring(springValue, {
@@ -33,13 +31,13 @@ const flipAnimation = () => {
       ]),
       Animated.sequence([
           Animated.timing(imageRotateValue, {
-            toValue: 100,
+            toValue: 100,//продолжительность
 
             useNativeDriver: true,
           }),
           Animated.timing(imageRotateValue, {
             toValue: 0, //начальная позиция
-            duration: 1900,
+            duration: 1900,// продолжительность поворота обратно
             useNativeDriver: true
           })
       ])
@@ -57,7 +55,7 @@ const transitionAnimation = (index) => {
             index * windowWidth,
             (index + 1) * windowWidth
           ],
-          outputRange: [0.25, 1, 0.25]
+          outputRange: [0.25, 1, 0.25]// размер изображений при перелистывании
         })
       },
       {
@@ -67,7 +65,7 @@ const transitionAnimation = (index) => {
             index * windowWidth,
             (index + 1) * windowWidth
           ],
-          outputRange: ["45deg", "0deg", "45deg"]
+          outputRange: ["45deg", "0deg", "45deg"]//угол наклона картинок при перелистывании слайдера
         })
       },
       {
@@ -77,7 +75,7 @@ const transitionAnimation = (index) => {
             index * windowWidth,
             (index + 1) * windowWidth
           ],
-          outputRange: ["-45deg", "0deg", "45deg"]
+          outputRange: ["-45deg", "0deg", "45deg"]//угол наклона картинок при перелистывании слайдера
         })
       }
     ]
@@ -102,13 +100,13 @@ const FadeInView = (props) => {
     Animated.timing(
         fadeAnim,{
           toValue: 1,
-          duration: 3000,
+          duration: 2000,//длительность пояления при переходе по кнопке
           useNativeDriver: true,
         }
     ).start()
   }, [fadeAnim])
 
-  return ( //галерея
+  return (
       <Animated.View                 
           style={{
             ...props.style,
@@ -166,8 +164,7 @@ export default function AppAmination() {
                   windowWidth * imageIndex,
                   windowWidth * (imageIndex + 1)
                 ],
-                outputRange: [8, 16, 8],
-                extrapolate: "clamp"
+                outputRange: [8, 16, 8],// dotes
               });
               return (
                   <Animated.View
@@ -184,10 +181,6 @@ export default function AppAmination() {
       </SafeAreaView>
   );
 }
-
-
-
-
 
 
 const styles = StyleSheet.create({
@@ -235,7 +228,7 @@ const styles = StyleSheet.create({
   scrollPage: {
     width: windowWidth,
   },
-  indicatorContainer: {
+  indicatorContainer: {//dotes
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 0,
